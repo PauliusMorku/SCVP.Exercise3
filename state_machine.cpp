@@ -1,67 +1,72 @@
 #include "state_machine.h"
 #include <unistd.h>
 
-void stateMachine::process()
+void stateMachine::stm()
 {
-    enum base {Start,G,GA,GAA,GAAG};
-    base sate;
+    char input_temp = input.read();
+    bool output_temp = false;
 
-    output.write(false);
-    switch (sate){
-    case Start:
-        if (input == 'G')
-        {
-            sate = G;
-        }
-        break;
-    case G:
-        if (input == 'A')
-        {
-            sate = GA;
-        }
-        else if (input == 'G')
-        {
-            sate = G;
-        }
-        else
-        {
-            sate = Start;
-        }
-        break;
-    case GA:
-        if (input == 'A')
-        {
-            sate = GAA;
-        }
-        else if (input == 'G')
-        {
-            sate = G;
-        }
-        else
-        {
-            sate = Start;
-        }
-        break;
-    case GAA:
-        if (input == 'G')
-        {
-            sate = GAAG;
-        }
-        else
-        {
-            sate = Start;
-        }
-        break;
-    case GAAG:
-        if (input == 'G')
-        {
-            sate = G;
-        }
-        else
-        {
-            sate = Start;
-        }
-        output.write(true);
-        break;
+    switch (state)
+    {
+        case Start:
+            if (input_temp == 'G')
+            {
+                state = G;
+            }
+            break;
+        case G:
+            if (input_temp == 'A')
+            {
+                state = GA;
+            }
+            else if (input_temp == 'G')
+            {
+                state = G;
+            }
+            else
+            {
+                state = Start;
+            }
+            break;
+        case GA:
+            if (input_temp == 'A')
+            {
+                state = GAA;
+            }
+            else if (input_temp == 'G')
+            {
+                state = G;
+            }
+            else
+            {
+                state = Start;
+            }
+            break;
+        case GAA:
+            if (input_temp == 'G')
+            {
+                state = GAAG;
+            }
+            else
+            {
+                state = Start;
+            }
+            break;
+        case GAAG:
+            if (input_temp == 'G')
+            {
+                state = G;
+            }
+            else
+            {
+                state = Start;
+            }
+            std::cout<<"Patern GAAG detected"<<std::endl;
+            output_temp = true;
+            break;
+        default:
+            SC_REPORT_FATAL(this->name(), "Invalid state");
+            break;
     }
+    output.write(output_temp);
 }

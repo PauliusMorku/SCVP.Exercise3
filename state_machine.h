@@ -3,6 +3,8 @@
 
 #include <systemc.h>
 
+enum base {Start,G,GA,GAA,GAAG};
+
 SC_MODULE(stateMachine)
 {
 public:
@@ -10,15 +12,18 @@ public:
     sc_in<bool> clk;
     sc_out<bool> output;
 
+    int state; //did not use enum because GTKwave could not recognize it
+
     SC_CTOR(stateMachine): input("input"), clk("clk"), output("output")
     {
-        SC_METHOD(process);
+        state = Start;
+        SC_METHOD(stm);
         dont_initialize();
         sensitive << clk.pos();
     }
 
 private:
-    void process();
+    void stm();
 };
 
 
