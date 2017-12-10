@@ -29,5 +29,9 @@ int sc_main(int argc, char* argv[])
 
     sc_start();
     sc_close_vcd_trace_file(Tf);
+
+    /* Why do we use dont_initialize() in state machine constructor?
+     * /
+
     return 0;
 }

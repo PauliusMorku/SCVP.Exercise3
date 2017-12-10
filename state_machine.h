@@ -12,10 +12,11 @@ public:
     sc_in<bool> clk;
     sc_out<bool> output;
 
-    int state; //did not use enum because GTKwave could not recognize it
+    int state; // do not use enum because GTKwave could not recognize it
 
     SC_CTOR(stateMachine): input("input"), clk("clk"), output("output")
     {
+        matches_cnt = 0;
         state = Start;
         SC_METHOD(stm);
         dont_initialize();
@@ -24,6 +25,7 @@ public:
 
 private:
     void stm();
+    unsigned int matches_cnt;
 };
 
 

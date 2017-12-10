@@ -3,6 +3,7 @@
 
 void stateMachine::stm()
 {
+    // temp variables to avoid repetitive read and write to sc ports
     char input_temp = input.read();
     bool output_temp = false;
 
@@ -61,7 +62,8 @@ void stateMachine::stm()
             {
                 state = Start;
             }
-            std::cout<<"Patern GAAG detected"<<std::endl;
+            matches_cnt++;
+            std::cout<<"Patern GAAG detected, total matches: "<< matches_cnt <<std::endl;
             output_temp = true;
             break;
         default:
